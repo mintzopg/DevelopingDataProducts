@@ -1,0 +1,63 @@
+Developing Data Products: Titanic Machine Learning from Disaster
+========================================================
+author: Georgios Mintzopoulos
+date: 23/09/2015
+transition: concave
+
+Summary
+========================================================
+<small>
+In the context of the course Developing Data Products we used the Titanic dataset as provided by Kaggle.
+We use the provided train csv file for building two prediction on who survived the disaster.
+
+The application written in shiny for this project works as following:
+
+  1. It loads the train.csv file with the training data as provided in Kaggle.
+  2. An exploratory analysis of this daset is done.
+  3. A new data set is loaded (training.csv) as was wrangled in another RScript
+  4. We use the training data set to do a split in a training and a test set.
+    + The split is based on user input, with default 80% training and 20% testing
+  5. We fit two tree models to predict the outcome (who Survived), according to user input for the tuning parameters.
+    + Model 1 is a simple classification tree (CART) using rpart package.
+    + Model 2 is a Random Forest
+</small>
+
+Data     
+========================================================
+```{r, echo=FALSE,cache=TRUE,results='hide'}
+setwd("B:/JH_DS_Developing_Data_Products_project/presentation")
+train <- read.csv("data/train.csv", na.strings = c("NA", "", " ", NULL))
+training <- read.csv("data/training.csv")
+```
+
+The initial dataset has 891 observations and 11 variables as possible predictors, and the structure:
+<small>
+```{r}
+str(train)
+```
+</small>
+
+Data Wnagling
+========================================================
+<small>
+* Data wrangling was performed outside the shiny app to fit  space requirements in shinyapps cloud
+* The wrangling steps are data imputation of missing values and variables standardization, described in the shiny app.
+
+The wrangled dataset has 6 predictors and the following structure:
+</small>
+<small>
+```{r}
+str(training)
+```
+</small>
+
+Model Fit
+========================================================
+<small>
+The models we fit are:
+
+1. A simple CART tree. The user chooses the train/test split percentage and the cp parameter.
+2. A Random Forest. The user chooses the train/test split, number of trees (ntree) and mtry parameters.
+
+The fit results are shon as a confusion matrix.
+</small>
